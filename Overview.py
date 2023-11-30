@@ -80,10 +80,10 @@ st.write(plt.scatter(x=clusters[clusters['Cluster_Prediction'] == 2]['SUM Price'
 
 
 
-plt.scatter(x=kms.cluster_centers_[:, 0], y=kms.cluster_centers_[:, 1], s = 120, c = 'yellow', label = 'Centroids',edgecolor='black', linewidth=0.3)
-plt.legend(loc='upper right')
+st.write(plt.scatter(x=kms.cluster_centers_[:, 0], y=kms.cluster_centers_[:, 1], s = 120, c = 'yellow', label = 'Centroids',edgecolor='black', linewidth=0.3))
+st.write(plt.legend(loc='upper right'))
 
-plt.xlabel('Akumulasi Harga Barang yang Telah Dibeli')
-plt.ylabel('Akumulasi Point Value yang Didapat')
-plt.title('Clusters', fontsize = 20)
-plt.show()
+st.write(plt.xlabel('Akumulasi Harga Barang yang Telah Dibeli'))
+st.write(plt.ylabel('Akumulasi Point Value yang Didapat'))
+st.write(plt.title('Clusters', fontsize = 20))
+st.write(plt.show())
