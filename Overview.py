@@ -25,7 +25,7 @@ st.write('''
         ''')
 st.markdown('''Aplikasi adalah berupa pengsegmentasian pelanggan,dan Kali ini,akan menganalisa data penjualan produk HNI di suatu cabang PT HPAI di kec Tunggulrejo,Kabupaten Purworejo,dimana mulai buka pada tahun 2021,dan data yang dianalisa hingga periode September 2023
 
-Berikut adalah data Penjualannya ''')
+Berikut adalah data Penjualannya''')
 
 st.write(df)
 st.markdown('''Data diatas masih berupa RAW data,yang mana nantinya akan diolah melalui beberapa proses data Preprocessing antara lain:  
@@ -36,9 +36,9 @@ st.markdown('''Data diatas masih berupa RAW data,yang mana nantinya akan diolah 
 - Pemrosesan dengan menggunakan algoritma K Means
 - Penampilan data yang sudah ter Clusterisasi
 - Pengesampingan Outliers
-- Pengulangan metode sebelumnya
+- Pengulangan metode sebelumnya ''')
         
-Berikut adalah contoh data yang sudah di Grouping berdasar Kolom Customer_Name: ''')
+st.subheader('Berikut adalah contoh data yang sudah di Grouping berdasar Kolom Customer_Name: ')
 
 st.write(df_proc)
 
