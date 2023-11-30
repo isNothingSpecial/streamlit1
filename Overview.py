@@ -54,35 +54,36 @@ clusters['Cluster_Prediction'] = kms.fit_predict(df_clusters)
 st.write((clusters))
 
 st.subheader('Persebaran Customer Selama 3 tahun')
+
 fig, ax = plt.subplots(figsize=(15,7))
-sns.set(font_scale=1.5)
-ax = sns.scatterplot(y=df_clusters['SUM PV'],x=df_clusters['SUM Price'], s=70, color='#f73434', edgecolor='black', linewidth=0.3)
-ax.set_ylabel('Akumulasi Point Value')
-ax.set_xlabel('Akumulasi Harga Barang yang Telah Dibeli')
-plt.title('Persebaran Customer', fontsize = 20)
+
+
+plt.scatter(x=clusters[clusters['Cluster_Prediction'] == 0]['SUM Price'],
+            y=clusters[clusters['Cluster_Prediction'] == 0]['SUM PV'],
+            s=70,edgecolor='black', linewidth=0.3, c='deepskyblue', label='Cluster 1')
+
+plt.scatter(x=clusters[clusters['Cluster_Prediction'] == 1]['SUM Price'],
+            y=clusters[clusters['Cluster_Prediction'] == 1]['SUM PV'],
+            s=70,edgecolor='black', linewidth=0.3, c='magenta', label='Cluster 2')
+
+plt.scatter(x=clusters[clusters['Cluster_Prediction'] == 2]['SUM Price'],
+            y=clusters[clusters['Cluster_Prediction'] == 2]['SUM PV'],
+            s=70,edgecolor='black', linewidth=0.3, c='red', label='Cluster 3')
+
+
+
+plt.scatter(x=kms.cluster_centers_[:, 0], y=kms.cluster_centers_[:, 1], s = 120, c = 'yellow', label = 'Centroids',edgecolor='black', linewidth=0.3)
+plt.legend(loc='upper right')
+
+plt.xlabel('Akumulasi Harga Barang yang Telah Dibeli')
+plt.ylabel('Akumulasi Point Value yang Didapat')
+plt.title('Clusters', fontsize = 20)
 plt.show()
 
-st.write(fig, ax = plt.subplots(figsize=(15,7))) 
-
-
-st.write(plt.scatter(x=clusters[clusters['Cluster_Prediction'] == 0]['SUM Price'],
-            y=clusters[clusters['Cluster_Prediction'] == 0]['SUM PV'],
-            s=70,edgecolor='black', linewidth=0.3, c='deepskyblue', label='Cluster 1'))
-
-st.write(plt.scatter(x=clusters[clusters['Cluster_Prediction'] == 1]['SUM Price'],
-            y=clusters[clusters['Cluster_Prediction'] == 1]['SUM PV'],
-            s=70,edgecolor='black', linewidth=0.3, c='magenta', label='Cluster 2'))
-
-st.write(plt.scatter(x=clusters[clusters['Cluster_Prediction'] == 2]['SUM Price'],
-            y=clusters[clusters['Cluster_Prediction'] == 2]['SUM PV'],
-            s=70,edgecolor='black', linewidth=0.3, c='red', label='Cluster 3'))
-
-
-
-st.write(plt.scatter(x=kms.cluster_centers_[:, 0], y=kms.cluster_centers_[:, 1], s = 120, c = 'yellow', label = 'Centroids',edgecolor='black', linewidth=0.3))
-st.write(plt.legend(loc='upper right'))
-
-st.write(plt.xlabel('Akumulasi Harga Barang yang Telah Dibeli'))
-st.write(plt.ylabel('Akumulasi Point Value yang Didapat'))
-st.write(plt.title('Clusters', fontsize = 20))
+st.write(fig, ax = plt.subplots(figsize=(15,7)))
+st.write(sns.set(font_scale=1.5))
+st.write(ax = sns.scatterplot(y=df_clusters['SUM PV'],x=df_clusters['SUM Price'], s=70, color='#f73434', edgecolor='black', linewidth=0.3))
+st.write(ax.set_ylabel('Akumulasi Point Value'))
+st.write(ax.set_xlabel('Akumulasi Harga Barang yang Telah Dibeli'))
+st.write(plt.title('Persebaran Customer', fontsize = 20))
 st.write(plt.show())
