@@ -55,27 +55,35 @@ st.write((clusters))
 st.write('Berikut adalah Centroid dari masing-masing Clusters')
 kms.cluster_centers_
 
-fig, ax = plt.subplots(figsize=(15,7)) 
+fig, ax = plt.subplots(figsize=(15,7))
+sns.set(font_scale=1.5)
+ax = sns.scatterplot(y=df2['SUM PV'],x=df2['SUM Price'], s=70, color='#f73434', edgecolor='black', linewidth=0.3)
+ax.set_ylabel('Akumulasi Point Value')
+ax.set_xlabel('Akumulasi Harga Barang yang Telah Dibeli')
+plt.title('Persebaran Customer', fontsize = 20)
+plt.show()
+
+st.write(fig, ax = plt.subplots(figsize=(15,7))) 
 
 
-plt.scatter(x=clusters[clusters['Cluster_Prediction'] == 0]['SUM Price'],
+st.write(plt.scatter(x=clusters[clusters['Cluster_Prediction'] == 0]['SUM Price'],
             y=clusters[clusters['Cluster_Prediction'] == 0]['SUM PV'],
-            s=70,edgecolor='black', linewidth=0.3, c='deepskyblue', label='Cluster 1')
+            s=70,edgecolor='black', linewidth=0.3, c='deepskyblue', label='Cluster 1'))
 
-plt.scatter(x=clusters[clusters['Cluster_Prediction'] == 1]['SUM Price'],
+st.write(plt.scatter(x=clusters[clusters['Cluster_Prediction'] == 1]['SUM Price'],
             y=clusters[clusters['Cluster_Prediction'] == 1]['SUM PV'],
-            s=70,edgecolor='black', linewidth=0.3, c='magenta', label='Cluster 2')
+            s=70,edgecolor='black', linewidth=0.3, c='magenta', label='Cluster 2'))
 
-plt.scatter(x=clusters[clusters['Cluster_Prediction'] == 2]['SUM Price'],
+st.write(plt.scatter(x=clusters[clusters['Cluster_Prediction'] == 2]['SUM Price'],
             y=clusters[clusters['Cluster_Prediction'] == 2]['SUM PV'],
-            s=70,edgecolor='black', linewidth=0.3, c='red', label='Cluster 3')
+            s=70,edgecolor='black', linewidth=0.3, c='red', label='Cluster 3'))
 
 
 
-plt.scatter(x=kms.cluster_centers_[:, 0], y=kms.cluster_centers_[:, 1], s = 120, c = 'yellow', label = 'Centroids',edgecolor='black', linewidth=0.3)
-plt.legend(loc='upper right')
+st.write(plt.scatter(x=kms.cluster_centers_[:, 0], y=kms.cluster_centers_[:, 1], s = 120, c = 'yellow', label = 'Centroids',edgecolor='black', linewidth=0.3))
+st.writeplt.legend(loc='upper right'))
 
-plt.xlabel('Akumulasi Harga Barang yang Telah Dibeli')
+st.write(plt.xlabel('Akumulasi Harga Barang yang Telah Dibeli')
 plt.ylabel('Akumulasi Point Value yang Didapat')
-plt.title('Clusters', fontsize = 20)
+plt.title('Clusters', fontsize = 20))
 plt.show()
