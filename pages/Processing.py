@@ -9,7 +9,7 @@ from streamlit_webrtc import webrtc_streamer
 df = pd.read_csv('finaldata.csv')
 
 kms = KMeans(n_clusters=3, init='k-means++')
-kms.fit(df1)
+kms.fit(df)
 
 st.title(''' SEGMENTASI PELANGGAN PEMEMBELIAN PRODUK HALAL NETWORK INTERNATIONAL (HNI) DENGAN MENGGUNAKAN ALGORITMA K-MEANS ''')
 st.write('Prediksi Data Baru')
