@@ -53,7 +53,7 @@ clusters = df_clusters.copy()
 clusters['Cluster_Prediction'] = kms.fit_predict(df_clusters)
 st.write((clusters))
 
-st.subheader('Berikut adalah hasil Clusterisasi dalam bentuk Tabel')
+st.subheader('Berikut adalah hasil Clusterisasi dalam bentuk Diagram Scatter Subplot')
 
 fig, ax = plt.subplots(figsize=(15,7))
 
