@@ -25,7 +25,7 @@ input_price = st.number_input ("Total Harga")
 result = "-"
 
 Predict =st.button("Predict")
-if Predict
+if Predict:
     if input_pv != str(0.00) and input_price != str(0.00):
         pv = float(input_pv)
         price = float(input_price)
