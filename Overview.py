@@ -61,4 +61,4 @@ ax = sns.scatterplot(y=df_clusters['SUM PV'],x=df_clusters['SUM Price'], s=70, c
 ax.set_ylabel('Akumulasi Point Value')
 ax.set_xlabel('Akumulasi Harga Barang yang Telah Dibeli')
 plt.title('Persebaran Customer', fontsize = 20)
-plt.show()
+st.write(plt.show())
