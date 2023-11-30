@@ -31,8 +31,6 @@ if st.button("Predict"):
         prediction = kms.predict([[pv, price]])[0]
         result = str(prediction)
         
-        if result =0
-            st.write('Cluster 0 merupakan Cluster dimana
     else:
         result = "Please complete form above!"
     
