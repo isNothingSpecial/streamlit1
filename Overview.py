@@ -81,7 +81,7 @@ st.write(plt.scatter(x=clusters[clusters['Cluster_Prediction'] == 2]['SUM Price'
 
 
 st.write(plt.scatter(x=kms.cluster_centers_[:, 0], y=kms.cluster_centers_[:, 1], s = 120, c = 'yellow', label = 'Centroids',edgecolor='black', linewidth=0.3))
-st.writeplt.legend(loc='upper right'))
+st.write(plt.legend(loc='upper right'))
 
 st.write(plt.xlabel('Akumulasi Harga Barang yang Telah Dibeli')
 plt.ylabel('Akumulasi Point Value yang Didapat')
