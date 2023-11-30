@@ -55,11 +55,11 @@ st.write((clusters))
 st.write('Berikut adalah Centroid dari masing-masing Clusters')
 kms.cluster_centers_
 
-persebaran =fig, ax = plt.subplots(figsize=(15,7))
+fig, ax = plt.subplots(figsize=(15,7))
 sns.set(font_scale=1.5)
 ax = sns.scatterplot(y=df_clusters['SUM PV'],x=df_clusters['SUM Price'], s=70, color='#f73434', edgecolor='black', linewidth=0.3)
 ax.set_ylabel('Akumulasi Point Value')
 ax.set_xlabel('Akumulasi Harga Barang yang Telah Dibeli')
 plt.title('Persebaran Customer', fontsize = 20)
 plt.show()
-st.write(persebaran)
+st.write(plt.show)
