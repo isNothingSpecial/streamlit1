@@ -29,14 +29,14 @@ Berikut adalah data Penjualannya ''')
 
 st.write(df)
 st.markdown('''Data diatas masih berupa RAW data,yang mana nantinya akan diolah melalui beberapa proses data Preprocessing antara lain:  
-            - Menghapus kolom yang tidak diperlukan  
-            - Mengubah Nama Kolom Customer Name menjadi Customer_Name 
-            - Grouping berdasar Kolom Customer_Name  
-            - Ditampilkan dalam bentuk diagram
-            - Pemrosesan dengan menggunakan algoritma K Means
-            - Penampilan data yang sudah ter Clusterisasi
-            - Pengesampingan Outliers
-            - Pengulangan metode sebelumnya
+- Menghapus kolom yang tidak diperlukan 
+- Mengubah Nama Kolom Customer Name menjadi Customer_Name 
+- Grouping berdasar Kolom Customer_Name  
+- Ditampilkan dalam bentuk diagram
+- Pemrosesan dengan menggunakan algoritma K Means
+- Penampilan data yang sudah ter Clusterisasi
+- Pengesampingan Outliers
+- Pengulangan metode sebelumnya
         
 Berikut adalah contoh data yang sudah di Grouping berdasar Kolom Customer_Name: ''')
 
