@@ -45,15 +45,13 @@ st.write(df_proc)
 
 df_clusters = pd.read_csv('finaldata.csv')
 
+st.write('Berikut adalah hasil Clusterisasi dalam bentuk Tabel')
 kms = KMeans(n_clusters=3, init='k-means++')
 kms.fit(df_clusters)
 
 clusters = df_clusters.copy()
 clusters['Cluster_Prediction'] = kms.fit_predict(df_clusters)
 st.write((clusters))
-
-st.write('Berikut adalah Centroid dari masing-masing Clusters')
-kms.cluster_centers_
 
 fig, ax = plt.subplots(figsize=(15,7))
 sns.set(font_scale=1.5)
