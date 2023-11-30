@@ -31,11 +31,11 @@ if Predict:
         price = float(input_price)
         prediction = kms.predict([[pv, price]])[0]
         result = str(prediction)
-        if result ='0':
+        if n_clusters ='0':
             st.write('Cluster 0 merupakan Cluster dimana Cluster dimana termasuk cluster Low Price Low Demand,Cluster tersebut merupakan dimana Pelanggan melakukan sedikit sekali  transaksi dengan harga barang yang relatif terjangkau,dimana Cluster ini dikisaran Rp 0 hingga Rp 490.000,00,dimana Cluster ini bisa terjadi karena banyak faktor,apakah mereka merupakan pelanggan baru,dimana mereka masih mencoba dengan membeli produk HNI untuk pertama kalinya,apakah mereka pelanggan yang berada di luar kota,sehingga lebih memilih beli di tempat yang relatif dengan mereka')
-        elif result ='1':
+        elif n_clusters ='1':
             st.write('Cluster 1 merupakan Cluster dimana Cluster dimana termasuk cluster Medium, Cluster tersebut merupakan dimana Pelanggan melakukan sedikit sekali  transaksi dengan harga barang yang relatif terjangkau dimana Cluster ini dikisaran Rp 491.000,00 hingga Rp 965.000,00,dimana Cluster ini bisa terjadi karena banyak faktor,apakah mereka pelanggan yang berada di luar kota,sehingga lebih memilih beli di tempat yang relatif dengan mereka,atau apakah pelanggan lama dimana sering melakukan transaksi akan tetapi dengan kuantitas dan harga barang yang terjangkau')
-        else result ='2':
+        else n_clusters ='2':
             st.write('Cluster 2 merupakan Cluster dimana Cluster dimana termasuk cluster High Price,High Demands,dimana Cluster tersebut merupakan dimana Pelanggan melakukan sering sekali melakukan transaksi dengan kuantitas yang tergolong banyak dalam sekali transaksi dimana Cluster ini dikisaran > Rp 1.000.000,00,dimana Cluster ini bisa terjadi karena Pelanggan sering melakukan transaksi kuantitas yang cukup banyak dengan sekali transaksi,dan termasuk pelanggan yang konsisten beli di cabang tersebut')
     else:
         result = "-"
