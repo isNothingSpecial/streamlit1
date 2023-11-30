@@ -63,27 +63,27 @@ st.write((clusters))
 st.write('Berikut adalah Centroid dari masing-masing Clusters')
 kms.cluster_centers_
 
-st.write(fig, ax = plt.subplots(figsize=(15,7))) 
+fig, ax = plt.subplots(figsize=(15,7))
 
 
-st.write(plt.scatter(x=clusters[clusters['Cluster_Prediction'] == 0]['SUM Price'],
+plt.scatter(x=clusters[clusters['Cluster_Prediction'] == 0]['SUM Price'],
             y=clusters[clusters['Cluster_Prediction'] == 0]['SUM PV'],
-            s=70,edgecolor='black', linewidth=0.3, c='deepskyblue', label='Cluster 1'))
+            s=70,edgecolor='black', linewidth=0.3, c='deepskyblue', label='Cluster 1')
 
-st.write(plt.scatter(x=clusters[clusters['Cluster_Prediction'] == 1]['SUM Price'],
+plt.scatter(x=clusters[clusters['Cluster_Prediction'] == 1]['SUM Price'],
             y=clusters[clusters['Cluster_Prediction'] == 1]['SUM PV'],
-            s=70,edgecolor='black', linewidth=0.3, c='magenta', label='Cluster 2'))
+            s=70,edgecolor='black', linewidth=0.3, c='magenta', label='Cluster 2')
 
-st.write(plt.scatter(x=clusters[clusters['Cluster_Prediction'] == 2]['SUM Price'],
+plt.scatter(x=clusters[clusters['Cluster_Prediction'] == 2]['SUM Price'],
             y=clusters[clusters['Cluster_Prediction'] == 2]['SUM PV'],
-            s=70,edgecolor='black', linewidth=0.3, c='red', label='Cluster 3'))
+            s=70,edgecolor='black', linewidth=0.3, c='red', label='Cluster 3')
 
 
 
-st.write(plt.scatter(x=kms.cluster_centers_[:, 0], y=kms.cluster_centers_[:, 1], s = 120, c = 'yellow', label = 'Centroids',edgecolor='black', linewidth=0.3))
-st.write(plt.legend(loc='upper right'))
+plt.scatter(x=kms.cluster_centers_[:, 0], y=kms.cluster_centers_[:, 1], s = 120, c = 'yellow', label = 'Centroids',edgecolor='black', linewidth=0.3)
+plt.legend(loc='upper right')
 
-st.write(plt.xlabel('Akumulasi Harga Barang yang Telah Dibeli'))
-st.write(plt.ylabel('Akumulasi Point Value yang Didapat'))
-st.write(plt.title('Clusters', fontsize = 20))
-st.write(plt.show())
+plt.xlabel('Akumulasi Harga Barang yang Telah Dibeli')
+plt.ylabel('Akumulasi Point Value yang Didapat')
+plt.title('Clusters', fontsize = 20)
+plt.show()
