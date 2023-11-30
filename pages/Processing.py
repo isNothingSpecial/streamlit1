@@ -25,6 +25,8 @@ input_price = st.number_input ("Total Harga")
 result = "-"
 
 Predict =st.button("Predict")
+
+st.subheader(f"Prediction : {result}")
 if Predict:
     if input_pv != str(0.00) and input_price != str(0.00):
         pv = float(input_pv)
@@ -42,4 +44,4 @@ if Predict:
 else :
     result = "Please complete form above!"
     
-st.subheader(f"Prediction : {result}")
+
