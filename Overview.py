@@ -53,7 +53,7 @@ clusters = df_clusters.copy()
 clusters['Cluster_Prediction'] = kms.fit_predict(df_clusters)
 st.write((clusters))
 
-st.subheader('Persebaran Customer Selama 3 tahun')
+st.subheader('Berikut adalah hasil Clusterisasi dalam bentuk Tabel')
 
 fig, ax = plt.subplots(figsize=(15,7))
 
