@@ -45,7 +45,7 @@ st.write(df_proc)
 
 df_clusters = pd.read_csv('finaldata.csv')
 
-st.write('Berikut adalah hasil Clusterisasi dalam bentuk Tabel')
+st.subheader('Berikut adalah hasil Clusterisasi dalam bentuk Tabel')
 kms = KMeans(n_clusters=3, init='k-means++')
 kms.fit(df_clusters)
 
@@ -53,6 +53,7 @@ clusters = df_clusters.copy()
 clusters['Cluster_Prediction'] = kms.fit_predict(df_clusters)
 st.write((clusters))
 
+st.subheader('Persebaran Customer Selama 3 tahun')
 fig, ax = plt.subplots(figsize=(15,7))
 sns.set(font_scale=1.5)
 ax = sns.scatterplot(y=df_clusters['SUM PV'],x=df_clusters['SUM Price'], s=70, color='#f73434', edgecolor='black', linewidth=0.3)
