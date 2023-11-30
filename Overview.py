@@ -11,6 +11,8 @@ df = pd.read_csv('Laporan_Penjualan1.csv')
 
 df_proc = pd.read_csv('cleandata.csv')
 
+
+
 st.set_page_config(page_title="Homepage",layout="wide")
 #side bar
 #st.sidebar.header("Segmentasi Pelanggan Produk HNI")
@@ -39,3 +41,48 @@ st.markdown('''Data diatas masih berupa RAW data,yang mana nantinya akan diolah 
 Berikut adalah contoh data yang sudah di Grouping berdasar Kolom Customer_Name: ''')
 
 st.write(df_proc)
+
+
+df_clusters = pd.read_csv('finaldata.csv')
+
+kms = KMeans(n_clusters=3, init='k-means++')
+kms.fit(df_clusters)
+
+fig, ax = plt.subplots(figsize=(15,7))
+sns.set(font_scale=1.5)
+ax = sns.scatterplot(y=df_clusters['SUM PV'],x=df_clusters['SUM Price'], s=70, color='#f73434', edgecolor='black', linewidth=0.3)
+st.write(ax.set_ylabel('Akumulasi Point Value'))
+st.write(ax.set_xlabel('Akumulasi Harga Barang yang Telah Dibeli'))
+st.write(plt.title('Persebaran Customer', fontsize = 20))
+st.write(plt.show())
+
+clusters = df_clusters.copy()
+clusters['Cluster_Prediction'] = kms.fit_predict(df_clusters)
+st.write((clusters))
+
+kms.cluster_centers_
+
+fig, ax = plt.subplots(figsize=(15,7)) 
+
+
+plt.scatter(x=clusters[clusters['Cluster_Prediction'] == 0]['SUM Price'],
+            y=clusters[clusters['Cluster_Prediction'] == 0]['SUM PV'],
+            s=70,edgecolor='black', linewidth=0.3, c='deepskyblue', label='Cluster 1')
+
+plt.scatter(x=clusters[clusters['Cluster_Prediction'] == 1]['SUM Price'],
+            y=clusters[clusters['Cluster_Prediction'] == 1]['SUM PV'],
+            s=70,edgecolor='black', linewidth=0.3, c='magenta', label='Cluster 2')
+
+plt.scatter(x=clusters[clusters['Cluster_Prediction'] == 2]['SUM Price'],
+            y=clusters[clusters['Cluster_Prediction'] == 2]['SUM PV'],
+            s=70,edgecolor='black', linewidth=0.3, c='red', label='Cluster 3')
+
+
+
+plt.scatter(x=kms.cluster_centers_[:, 0], y=kms.cluster_centers_[:, 1], s = 120, c = 'yellow', label = 'Centroids',edgecolor='black', linewidth=0.3)
+plt.legend(loc='upper right')
+
+st.write(plt.xlabel('Akumulasi Harga Barang yang Telah Dibeli'))
+st.write(plt.ylabel('Akumulasi Point Value yang Didapat'))
+st.write(plt.title('Clusters', fontsize = 20))
+st.write(plt.show())
