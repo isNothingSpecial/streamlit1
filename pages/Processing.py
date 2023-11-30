@@ -24,7 +24,8 @@ input_price = st.number_input ("Total Harga")
 
 result = "-"
 
-if st.button("Predict"):
+Predict =st.button("Predict")
+if Predict
     if input_pv != str(0.00) and input_price != str(0.00):
         pv = float(input_pv)
         price = float(input_price)
@@ -37,6 +38,8 @@ if st.button("Predict"):
         elif result ='2':
             st.write('Cluster 2 merupakan Cluster dimana Cluster dimana termasuk cluster High Price,High Demands,dimana Cluster tersebut merupakan dimana Pelanggan melakukan sering sekali melakukan transaksi dengan kuantitas yang tergolong banyak dalam sekali transaksi dimana Cluster ini dikisaran > Rp 1.000.000,00,dimana Cluster ini bisa terjadi karena Pelanggan sering melakukan transaksi kuantitas yang cukup banyak dengan sekali transaksi,dan termasuk pelanggan yang konsisten beli di cabang tersebut')
     else:
-        result = "Please complete form above!"
+        result = "-"
+else :
+    result = "Please complete form above!"
     
 st.subheader(f"Prediction : {result}")
