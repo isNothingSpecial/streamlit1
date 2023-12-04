@@ -6,7 +6,7 @@ from sklearn.cluster import KMeans # Scikit Learn (version : 0.23.2)
 import seaborn as sns # Seaborn (version : 0.11.1)
 from streamlit_webrtc import webrtc_streamer
 
-st.image("1835901.png")
+st.image("1835901.png",width=500)
 st.caption('Logo HNI')
 st.write('''
         ''')
