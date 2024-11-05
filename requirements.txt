@@ -6,4 +6,4 @@ scipy
 matplotlib
 seaborn
 streamlit-webrtc
-altair
+altair.vegalite.v4
