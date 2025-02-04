@@ -6,4 +6,3 @@ scipy
 matplotlib
 seaborn
 streamlit-webrtc
-altair==4.2.0
