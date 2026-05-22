@@ -59,9 +59,24 @@ with tab3:
     kms = KMeans(n_clusters=3, init='k-means++', random_state=42)
     
     clusters = df_clusters.copy()
-    clusters['Cluster'] = kms.fit_predict(df_clusters)
     
-    # Mengubah tipe data cluster menjadi string untuk Plotly agar dianggap sebagai kategori, bukan skala kontinu
+    # 1. Dapatkan label acak bawaan K-Means
+    clusters['Cluster_Raw'] = kms.fit_predict(df_clusters)
+    
+    # 2. Hitung rata-rata 'SUM Price' untuk masing-masing cluster acak
+    # Lalu urutkan dari yang terkecil hingga terbesar
+    rata_rata_cluster = clusters.groupby('Cluster_Raw')['SUM Price'].mean().sort_values()
+    
+    # 3. Buat dictionary pemetaan (mapping) label baru
+    mapping_label = {old_id: new_id for new_id, old_id in enumerate(rata_rata_cluster.index)}
+    
+    # 4. Terapkan pemetaan ke kolom 'Cluster' akhir
+    clusters['Cluster'] = clusters['Cluster_Raw'].map(mapping_label)
+    
+    # Hapus kolom raw agar tidak muncul di tabel atau popup hover grafik
+    clusters = clusters.drop(columns=['Cluster_Raw'])
+    
+    # Mengubah tipe data cluster menjadi string untuk Plotly agar dianggap sebagai kategori
     clusters['Cluster'] = clusters['Cluster'].astype(str)
 
     st.subheader("Distribusi Klaster Pelanggan")
@@ -76,7 +91,8 @@ with tab3:
             x='SUM Price', 
             y='SUM PV', 
             color='Cluster',
-            color_discrete_sequence=['#00b4d8', '#f15bb5', '#fee440'],
+            # Warna diurutkan: 0 (Biru/Low), 1 (Kuning/Medium), 2 (Pink/High)
+            color_discrete_sequence=['#00b4d8', '#fee440', '#f15bb5'], 
             title="Persebaran Segmen: Akumulasi Harga vs Point Value (PV)",
             labels={'SUM Price': 'Total Belanja (Rp)', 'SUM PV': 'Total PV'},
             hover_data=clusters.columns # Menampilkan semua info saat titik di-hover
@@ -95,8 +111,7 @@ with tab3:
     with st.expander("💡 Rekomendasi & Insight Bisnis"):
         st.markdown("""
         Berdasarkan visualisasi di atas, Anda dapat memetakan strategi:
-        * **Cluster 0:** Fokus pada peningkatan volume transaksi (Cross-selling).
-        * **Cluster 1:** Pertahankan loyalitas dengan reward khusus.
-        * **Cluster 2:** Evaluasi pelanggan pasif dan berikan promo *win-back*.
-        *(Sesuaikan interpretasi cluster dengan letak centroid masing-masing kelompok)*
+        * **Cluster 0 (Low Demand):** Fokus pada edukasi produk dan penawaran *bundling* terjangkau untuk memicu pembelian ulang.
+        * **Cluster 1 (Medium Demand):** Tawarkan promo *upselling* untuk meningkatkan nilai keranjang belanja mereka.
+        * **Cluster 2 (High Demand):** Pertahankan loyalitas dengan memberikan layanan prioritas atau program *reward* khusus agen/distributor.
         """)
