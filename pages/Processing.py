@@ -12,15 +12,22 @@ def train_model():
     df = pd.read_csv('finaldata.csv')
     
     # Pastikan hanya mengambil kolom numerik yang relevan sesuai urutan saat EDA
-    # Sesuaikan nama kolom ini jika di CSV Anda berbeda
     X = df[['SUM Price', 'SUM PV']] 
     
     kms = KMeans(n_clusters=3, init='k-means++', random_state=42)
-    kms.fit(X)
-    return kms
+    
+    # Dapatkan label acak (raw) untuk data latih
+    df['Cluster_Raw'] = kms.fit_predict(X)
+    
+    # Hitung rata-rata 'SUM Price' dan buat dictionary mapping agar urut 0=Low, 1=Mid, 2=High
+    rata_rata_cluster = df.groupby('Cluster_Raw')['SUM Price'].mean().sort_values()
+    mapping_label = {old_id: new_id for new_id, old_id in enumerate(rata_rata_cluster.index)}
+    
+    # Kembalikan model dan dictionary mapping-nya
+    return kms, mapping_label
 
-# Panggil fungsi train model
-kms = train_model()
+# Panggil fungsi train model dan simpan variabel mapping-nya
+kms, mapping_label = train_model()
 
 # --- HEADER ---
 st.title("🔍 Prediksi Segmen Pelanggan Baru (HNI)")
@@ -48,8 +55,12 @@ with st.form("form_prediksi"):
 # --- LOGIKA PREDIKSI ---
 if submitted:
     if input_price > 0 or input_pv > 0:
-        # PENTING: Urutan array harus sama dengan saat fitting model [Price, PV]
-        prediction = kms.predict([[input_price, input_pv]])[0]
+        
+        # 1. Dapatkan prediksi mentah (raw) dari algoritma
+        raw_prediction = kms.predict([[input_price, input_pv]])[0]
+        
+        # 2. Konversi/petakan prediksi mentah menjadi urutan yang benar menggunakan mapping
+        prediction = mapping_label[raw_prediction]
         
         st.subheader("Hasil Analisis:")
         
