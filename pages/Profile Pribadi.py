@@ -8,7 +8,7 @@ col_img, col_info = st.columns([1, 2.5])
 
 with col_img:
     # Memastikan gambar profil menyesuaikan lebar kolom agar tidak terlalu besar
-    st.image("me.png", use_container_width=True)
+    st.image("foto pribadi 4x6.jpg", use_container_width=True)
 
 with col_info:
     st.title("Bagus Rahma Aulia Chandra")
