@@ -1,50 +1,96 @@
 import streamlit as st
-import pandas as pd # Pandas (version : 1.1.5) 
-import numpy as np # Numpy (version : 1.19.2)
-import matplotlib.pyplot as plt # Matplotlib (version :  3.3.2)
-from sklearn.cluster import KMeans # Scikit Learn (version : 0.23.2)
-import seaborn as sns # Seaborn (version : 0.11.1)
-from streamlit_webrtc import webrtc_streamer
+import pandas as pd
+from sklearn.cluster import KMeans
 
-df = pd.read_csv('finaldata.csv')
+# --- KONFIGURASI HALAMAN ---
+st.set_page_config(page_title="Prediksi Pelanggan HNI", layout="centered")
 
-kms = KMeans(n_clusters=3, init='k-means++')
-kms.fit(df)
-
-st.title(''' SEGMENTASI PELANGGAN PEMEMBELIAN PRODUK HALAL NETWORK INTERNATIONAL (HNI) DENGAN MENGGUNAKAN ALGORITMA K-MEANS ''')
-st.write('Prediksi Data Baru')
-
-input_pv = st.number_input ("Total Point Value", )
-#min_value=df('precipation').min()
-#max_value=df('precipation').max()
-
-input_price = st.number_input ("Total Harga")
-#min_value=df('precipation').min()
-#max_value=df('precipation').max()
-
-result = "-"
-
-Predict =st.button("Predict")
-
-
-if Predict:
-    if input_pv != str(0.00) and input_price != str(0.00):
-        pv = float(input_pv)
-        price = float(input_price)
-        prediction = kms.predict([[pv, price]])[0]
-        result = str(prediction)
-        if result =='0':
-            st.subheader(f"Prediction : {result}")
-            st.write('Cluster 0 merupakan Cluster dimana Cluster dimana termasuk cluster Low Price Low Demand,Cluster tersebut merupakan dimana Pelanggan melakukan sedikit sekali  transaksi dengan harga barang yang relatif terjangkau,dimana Cluster ini dikisaran Rp 0 hingga Rp 490.000,00,dimana Cluster ini bisa terjadi karena banyak faktor,apakah mereka merupakan pelanggan baru,dimana mereka masih mencoba dengan membeli produk HNI untuk pertama kalinya,apakah mereka pelanggan yang berada di luar kota,sehingga lebih memilih beli di tempat yang relatif dengan mereka')
-        elif result =='1':
-            st.subheader(f"Prediction : {result}")
-            st.write('Cluster 1 merupakan Cluster dimana Cluster dimana termasuk cluster Medium, Cluster tersebut merupakan dimana Pelanggan melakukan sedikit sekali  transaksi dengan harga barang yang relatif terjangkau dimana Cluster ini dikisaran Rp 491.000,00 hingga Rp 965.000,00,dimana Cluster ini bisa terjadi karena banyak faktor,apakah mereka pelanggan yang berada di luar kota,sehingga lebih memilih beli di tempat yang relatif dengan mereka,atau apakah pelanggan lama dimana sering melakukan transaksi akan tetapi dengan kuantitas dan harga barang yang terjangkau')
-        elif result =='2':
-            st.subheader(f"Prediction : {result}")
-            st.write('Cluster 2 merupakan Cluster dimana Cluster dimana termasuk cluster High Price,High Demands,dimana Cluster tersebut merupakan dimana Pelanggan melakukan sering sekali melakukan transaksi dengan kuantitas yang tergolong banyak dalam sekali transaksi dimana Cluster ini dikisaran > Rp 1.000.000,00,dimana Cluster ini bisa terjadi karena Pelanggan sering melakukan transaksi kuantitas yang cukup banyak dengan sekali transaksi,dan termasuk pelanggan yang konsisten beli di cabang tersebut')
-    else:
-        result = "-"
-else :
-    result = "Please complete form above!"
+# --- CACHING MODEL ---
+# Fit model hanya sekali saat aplikasi pertama kali dijalankan
+@st.cache_resource
+def train_model():
+    df = pd.read_csv('finaldata.csv')
     
+    # Pastikan hanya mengambil kolom numerik yang relevan sesuai urutan saat EDA
+    # Sesuaikan nama kolom ini jika di CSV Anda berbeda
+    X = df[['SUM Price', 'SUM PV']] 
+    
+    kms = KMeans(n_clusters=3, init='k-means++', random_state=42)
+    kms.fit(X)
+    return kms
 
+# Panggil fungsi train model
+kms = train_model()
+
+# --- HEADER ---
+st.title("🔍 Prediksi Segmen Pelanggan Baru (HNI)")
+st.markdown("""
+Masukkan data akumulasi transaksi pelanggan baru untuk memprediksi mereka akan masuk ke dalam klaster mana.
+""")
+
+st.divider()
+
+# --- FORM INPUT ---
+# Menggunakan st.form agar aplikasi tidak reload setiap kali angka diketik
+with st.form("form_prediksi"):
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        # Min value diatur 0.0 agar tidak menerima input negatif
+        input_price = st.number_input("Total Harga Transaksi (Rp)", min_value=0.0, step=50000.0)
+        
+    with col2:
+        input_pv = st.number_input("Total Point Value (PV)", min_value=0.0, step=10.0)
+        
+    # Tombol submit berada di dalam form
+    submitted = st.form_submit_button("Prediksi Cluster", type="primary")
+
+# --- LOGIKA PREDIKSI ---
+if submitted:
+    if input_price > 0 or input_pv > 0:
+        # PENTING: Urutan array harus sama dengan saat fitting model [Price, PV]
+        prediction = kms.predict([[input_price, input_pv]])[0]
+        
+        st.subheader("Hasil Analisis:")
+        
+        # --- UI HASIL PREDIKSI ---
+        if prediction == 0:
+            st.info("🎯 **Prediksi: CLUSTER 0 (Low Price, Low Demand)**")
+            st.markdown("""
+            **Rentang Transaksi:** Rp 0 - Rp 490.000
+            
+            **Analisis Profil:** 
+            Pelanggan di klaster ini melakukan sedikit transaksi dengan nominal yang relatif terjangkau.
+            
+            **Faktor Penyebab:**
+            * Pelanggan baru yang sedang mencoba produk HNI untuk pertama kalinya.
+            * Pelanggan luar kota yang lebih memilih membeli di tempat yang secara geografis lebih dekat, sehingga transaksi di cabang ini minim.
+            """)
+            
+        elif prediction == 1:
+            st.warning("🎯 **Prediksi: CLUSTER 1 (Medium)**")
+            st.markdown("""
+            **Rentang Transaksi:** Rp 491.000 - Rp 965.000
+            
+            **Analisis Profil:** 
+            Pelanggan dengan frekuensi belanja atau kuantitas barang tingkat menengah.
+            
+            **Faktor Penyebab:**
+            * Pelanggan luar kota yang sesekali berbelanja.
+            * Pelanggan lama yang sering bertransaksi, namun fokus pada produk-produk dengan harga yang sangat terjangkau secara konstan.
+            """)
+            
+        elif prediction == 2:
+            st.success("🎯 **Prediksi: CLUSTER 2 (High Price, High Demand)**")
+            st.markdown("""
+            **Rentang Transaksi:** > Rp 1.000.000
+            
+            **Analisis Profil:** 
+            Pelanggan VIP. Sering melakukan transaksi dengan kuantitas borongan (banyak) dalam sekali waktu.
+            
+            **Faktor Penyebab:**
+            * Pelanggan sangat konsisten berbelanja di cabang ini.
+            * Memiliki daya beli tinggi atau merupakan distributor/agen yang menyetok ulang barang jualannya.
+            """)
+    else:
+        st.error("Silakan masukkan nilai nominal Harga atau PV lebih dari 0 untuk memprediksi.")
