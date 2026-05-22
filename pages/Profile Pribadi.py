@@ -63,6 +63,6 @@ with skill_col1:
 with skill_col2:
     st.info("📊 Streamlit & Data Visualization")
 with skill_col3:
-    st.info("🤖 Machine Learning (K-Means)")
+    st.info("🤖 Machine Learning")
 with skill_col4:
     st.info("🎨 Graphic Design & UI/UX")
